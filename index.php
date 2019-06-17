@@ -5,6 +5,7 @@ require_once './vendor/autoload.php';
 require_once './clases/AccesoDatos.php';
 require_once './api/EmpleadoApi.php';
 require_once './api/UsuarioApi.php';
+require_once './api/SectorApi.php';
 require_once './jwt/AutentificadorJWT.php';
 require_once './mw/MWValidaciones.php';
 $config['displayErrorDetails'] = true;
@@ -34,6 +35,18 @@ $app->group('/empleado', function () {
 
 $app->group('/usuario', function(){
   $this->get('/{usuario}', \UsuarioApi::class . ':TraerUno');
+});
+
+$app->group('/sector', function(){
+  $this->get('/[{id}]', \SectorApi::class . ':TraerUno');
+  $this->post('[/]', \SectorApi::class . ':CargarUno');
+  $this->get('', \SectorApi::class . ':TraerTodos');
+});
+
+$app->group('/producto', function(){
+  $this->get('/[{id}]', \ProductoApi::class . ':TraerUno');
+  $this->post('[/]', \ProductoApi::class . ':CargarUno');
+  $this->get('', \ProductoApi::class . ':TraerTodos');
 });
 
 $app->run();

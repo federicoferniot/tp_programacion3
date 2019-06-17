@@ -6,7 +6,7 @@ class Empleado{
     public $apellido;
     public $estado;
     public $sector;
-    public $usuario;
+    public $usuario_id;
 
     public static function TraerTodoLosEmpleados(){
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
