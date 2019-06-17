@@ -14,13 +14,12 @@ class Usuario{
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
 
-	public static function TraerUnUsuario($usuario) 
-	{
-			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta("select id as id, username as username, password as password from usuario WHERE username=:username");
-			$consulta->bindValue(':username', $usuario, PDO::PARAM_STR);
-			$consulta->execute();
-			$usuarioBuscado= $consulta->fetchObject('Usuario');
-      		return $usuarioBuscado;				
+	public static function TraerUnUsuario($usuario) {
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta =$objetoAccesoDato->RetornarConsulta("select id as id, username as username, password as password from usuario WHERE username=:username");
+        $consulta->bindValue(':username', $usuario, PDO::PARAM_STR);
+        $consulta->execute();
+        $usuarioBuscado= $consulta->fetchObject('Usuario');
+        return $usuarioBuscado;
 	}
 }

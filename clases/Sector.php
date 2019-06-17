@@ -12,14 +12,13 @@ class Sector{
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
 
-    public static function TraerUnSectorPorId($id) 
-	{
-			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-			$consulta =$objetoAccesoDato->RetornarConsulta("select id as id, nombre as nombre from sector WHERE id=:id");
-			$consulta->bindValue(':id', $id, PDO::PARAM_INT);
-			$consulta->execute();
-			$sectorBuscado= $consulta->fetchObject('Sector');
-      		return $sectorBuscado;				
+    public static function TraerUnSectorPorId($id){
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta =$objetoAccesoDato->RetornarConsulta("select id as id, nombre as nombre from sector WHERE id=:id");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+        $sectorBuscado= $consulta->fetchObject('Sector');
+        return $sectorBuscado;
     }
     
     public static function TraerTodosLosSectores(){
