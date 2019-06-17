@@ -6,9 +6,11 @@ class PedidoApi extends Pedido implements IApiUsable{
     public static function CargarUno($request, $response) {
         $ArrayDeParametros = $request->getParsedBody();
         $productos= json_decode($ArrayDeParametros['productos'], true);
+        $mesa = $ArrayDeParametros['mesa'];
 
         $pedido = new Pedido();
         $pedido->productos = $productos;
+        $pedido->mesa = $mesa;
         $pedido->InsertarUnPedido();
         
         //$response->getBody()->write("asd".$nombre[0]['producto']);
