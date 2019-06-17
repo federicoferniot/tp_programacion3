@@ -18,9 +18,9 @@ class UsuarioApi extends Usuario{
 
     public function TraerUno($request, $response, $args) {
         $ArrayDeParametros = $request->getParsedBody();
-        $username= $ArrayDeParametros['usuario'];
+        $username= $args['usuario'];
         $usuario=Usuario::TraerUnUsuario($username);
-        $newResponse = $response->withJson($elCd, 200);  
+        $newResponse = $response->withJson($usuario, 200);  
         return $newResponse;
     }
 }

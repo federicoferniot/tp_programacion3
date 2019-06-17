@@ -1,7 +1,7 @@
 <?php
 require_once './vendor/autoload.php';
 require_once './jwt/AutentificadorJWT.php';
-require_once './clases/UsuarioApi.php';
+require_once './api/UsuarioApi.php';
 require_once './clases/Usuario.php';
 
 class MWValidaciones{
@@ -30,8 +30,8 @@ class MWValidaciones{
 
     public static function ValidarDatosEntradaEmpleado($request, $response, $next){
         $ArrayDeParametros = $request->getParsedBody();
-        if(isset($ArrayDeParametros['nombre']) && isset($ArrayDeParametros['usuario']) && isset($ArrayDeParametros['password'])){
-            UsuarioApi::cargarUno($request, $response);
+        if(isset($ArrayDeParametros['nombre']) && isset($ArrayDeParametros['usuario']) && isset($ArrayDeParametros['password']) && !(Usuario::TraerUnUsuario($ArrayDeParametros['usuario']))){
+            $user_id = UsuarioApi::cargarUno($request, $response);
             return $next($request, $response);
         }
         return $response;
