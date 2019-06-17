@@ -7,10 +7,12 @@ class ProductoApi extends Producto implements IApiUsable{
         $ArrayDeParametros = $request->getParsedBody();
         $nombre= $ArrayDeParametros['nombre'];
         $precio= $ArrayDeParametros['precio'];
+        $tiempo_estimado= $ArrayDeParametros['tiempo_estimado'];
         $sector_id= $ArrayDeParametros['sector_id'];
-        $producto = new Sector();
+        $producto = new Producto();
         $producto->nombre=$nombre;
         $producto->precio=$precio;
+        $producto->tiempo_estimado=$tiempo_estimado;
         $producto->sector_id=$sector_id;
 
         $producto->InsertarUnProducto();
@@ -22,13 +24,13 @@ class ProductoApi extends Producto implements IApiUsable{
     public function TraerUno($request, $response, $args) {
         $ArrayDeParametros = $request->getParsedBody();
         $id= $args['id'];
-        $sector=Sector::TraerUnProductoPorId($id);
+        $sector=Producto::TraerUnProductoPorId($id);
         $newResponse = $response->withJson($sector, 200);  
         return $newResponse;
     }
 
     public function TraerTodos($request, $response, $args) {
-        $todosLosProductos=Sector::TraerTodosLosProductos();
+        $todosLosProductos=Producto::TraerTodosLosProductos();
         $newResponse = $response->withJson($todosLosProductos, 200);  
         return $newResponse;
     }

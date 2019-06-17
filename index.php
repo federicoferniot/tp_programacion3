@@ -6,7 +6,9 @@ require_once './clases/AccesoDatos.php';
 require_once './api/EmpleadoApi.php';
 require_once './api/UsuarioApi.php';
 require_once './api/SectorApi.php';
+require_once './api/ProductoApi.php';
 require_once './api/MesaApi.php';
+require_once './api/PedidoApi.php';
 require_once './jwt/AutentificadorJWT.php';
 require_once './mw/MWValidaciones.php';
 $config['displayErrorDetails'] = true;
@@ -53,6 +55,10 @@ $app->group('/producto', function(){
 $app->group('/mesa', function(){
   $this->get('', \MesaApi::class . ':TraerTodos');
   $this->post('[/]', \MesaApi::class . ':CargarUno');
+});
+
+$app->group('/pedido', function(){
+  $this->post('[/]', \PedidoApi::class . ':CargarUno');
 });
 
 $app->run();

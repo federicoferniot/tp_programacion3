@@ -21,14 +21,22 @@ class Pedido{
     public function InsertarUnPedido(){
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
         do{
-            $id = substr(md5(time(), 0, 5));
-        }while(Mesa::TraerUnPedidoPorId($id));
-        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido (id, mesa, total, tiempo_final_estimado, estado)values(:id, :mesa, :tiempo_final_estimado, :estado)");
-        $consulta->bindValue(':id', $id, PDO::PARAM_STR);
-        $consulta->bindValue(':mesa', $this->mesa);
-        $consulta->bindValue(':tiempo_final_estimado', $this->tiempo_final_estimado, PDO::PARAM_INT);
-        $consulta->bindValue(':estado', $this->estado, PDO::PARAM_INT);
+            $this->id = substr(md5(time()), rand(0, 26), 5);
+        }while(Pedido::TraerUnPedidoPorId($this->id));
+        //$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido (id, mesa, total, tiempo_final_estimado, estado)values(:id, :mesa, :tiempo_final_estimado, :estado)");
+        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido (id)values(:id)");
+        $consulta->bindValue(':id', $this->id, PDO::PARAM_STR);
+        //$consulta->bindValue(':mesa', $this->mesa);
+        //$consulta->bindValue(':tiempo_final_estimado', $this->tiempo_final_estimado, PDO::PARAM_INT);
+        //$consulta->bindValue(':estado', $this->estado, PDO::PARAM_INT);
         $consulta->execute();
+        foreach($this->productos as $producto){
+            $consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido_producto (pedido_id, producto_id, cantidad)values(:pedido_id, :producto_id, :cantidad)");
+            $consulta->bindValue(':pedido_id', $this->id, PDO::PARAM_STR);
+            $consulta->bindValue(':producto_id', $producto['producto'], PDO::PARAM_INT);
+            $consulta->bindValue(':cantidad', $producto['cantidad'], PDO::PARAM_INT);
+            $consulta->execute();
+        }
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
 }
