@@ -11,14 +11,55 @@ class PedidoApi extends Pedido implements IApiUsable{
         $pedido = new Pedido();
         $pedido->productos = $productos;
         $pedido->mesa = $mesa;
-        $pedido->InsertarUnPedido();
+        $id = $pedido->InsertarUnPedido();
         
-        //$response->getBody()->write("asd".$nombre[0]['producto']);
-        $response->getBody()->write("Ok");
-        return $response;
+        return $response->withJson(array("estado" => "Ok", "mensaje" => "Pedido dado de alta con Id: ".$id));
     }
 
     public function TraerTodos($request, $response, $args){
         return "ok";
+    }
+
+    public function VerEstados($request, $response, $args){
+        $estados = Pedido::TraerPedidosConEstados();
+        return $response->withJson(array("estado" => "Ok", "mensaje" => $estados));
+    }
+
+    public function ProductosPendientes($request, $response, $args){
+        $estados = Pedido::TraerProductosPendientes(1);
+        return $response->withJson(array("estado" => "Ok", "mensaje" => $estados));
+    }
+
+    public static function PrepararProducto($request, $response, $args){
+        $ArrayDeParametros = $request->getParsedBody();
+        $pedido_producto = $ArrayDeParametros['pedido_producto'];
+        $pedido = $ArrayDeParametros['pedido'];
+        if(Pedido::TraerUnPedidoProductoPorId($pedido_producto) && Pedido::TraerUnPedidoPorId($pedido)){
+            Pedido::PrepararUnProducto($pedido_producto);
+            Pedido::PrepararUnPedido($pedido);
+            return $response->withJson(array("estado" => "Ok", "mensaje" => "Producto en preparación"));
+        }
+        return $response->withJson(array("estado" => "Error", "mensaje" => "No se encontró pedido"));
+    }
+
+    public static function ServirProducto($request, $response, $args){
+        $ArrayDeParametros = $request->getParsedBody();
+        $pedido_producto = $ArrayDeParametros['pedido_producto'];
+        $pedido = $ArrayDeParametros['pedido'];
+        if(Pedido::TraerUnPedidoProductoPorId($pedido_producto) && Pedido::TraerUnPedidoPorId($pedido)){
+            Pedido::ServirUnProducto($pedido_producto);
+            if(Pedido::TieneProductosParaServir($pedido)){
+                Pedido::ServirUnPedido($pedido);
+            }
+            return $response->withJson(array("estado" => "Ok", "mensaje" => "Producto servido"));
+        }
+        return $response->withJson(array("estado" => "Error", "mensaje" => "No se encontró pedido"));
+    }
+
+    public static function EntregarPedido($request, $response, $args){
+        $ArrayDeParametros = $request->getParsedBody();
+        $pedido = $ArrayDeParametros['pedido'];
+        Pedido::EntregarUnPedido($pedido);
+        return $response->withJson(array("estado" => "Ok", "mensaje" => "Pedido entregado"));
     }
 }

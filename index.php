@@ -22,6 +22,9 @@ desarrollo para obtener información sobre los errores
   La segunda línea permite al servidor web establecer el encabezado Content-Length, 
   lo que hace que Slim se comporte de manera más predecible.
 */
+
+date_default_timezone_set("America/Argentina/Buenos_Aires");
+
 $app = new \Slim\App(["settings" => $config]);
 /*LLAMADA A METODOS DE INSTANCIA DE UNA CLASE*/
 
@@ -41,13 +44,13 @@ $app->group('/usuario', function(){
 });
 
 $app->group('/sector', function(){
-  $this->get('/[{id}]', \SectorApi::class . ':TraerUno');
+  $this->get('/{id}', \SectorApi::class . ':TraerUno');
   $this->post('[/]', \SectorApi::class . ':CargarUno');
   $this->get('', \SectorApi::class . ':TraerTodos');
 });
 
 $app->group('/producto', function(){
-  $this->get('/[{id}]', \ProductoApi::class . ':TraerUno');
+  $this->get('/{id}', \ProductoApi::class . ':TraerUno');
   $this->post('[/]', \ProductoApi::class . ':CargarUno');
   $this->get('', \ProductoApi::class . ':TraerTodos');
 });
@@ -59,6 +62,11 @@ $app->group('/mesa', function(){
 
 $app->group('/pedido', function(){
   $this->post('[/]', \PedidoApi::class . ':CargarUno');
+  $this->get('/verEstados', \PedidoApi::class . ':VerEstados');
+  $this->get('/productosPendientes', \PedidoApi::class . ':ProductosPendientes');
+  $this->post('/prepararPedido', \PedidoApi::class . ':PrepararProducto');
+  $this->post('/servirProducto', \PedidoApi::class . ':ServirProducto');
+  $this->post('/entregarPedido', \PedidoApi::class . ':EntregarPedido');
 });
 
 $app->run();
