@@ -74,7 +74,7 @@ class MWValidaciones{
 
     public static function ValidarDatosEntradaCargarEmpleado($request, $response, $next){
         $ArrayDeParametros = $request->getParsedBody();
-        if(isset($ArrayDeParametros['nombre']) && isset($ArrayDeParametros['usuario']) && isset($ArrayDeParametros['password']) && !(Usuario::TraerUnUsuario($ArrayDeParametros['usuario']))){
+        if(isset($ArrayDeParametros['nombre']) && isset($ArrayDeParametros['usuario']) && isset($ArrayDeParametros['password'])){
             $respuesta = UsuarioApi::cargarUno($request, $response);
             $respuesta_decode = json_decode($respuesta->getBody());
             if($respuesta_decode->estado == "Ok"){
@@ -83,7 +83,7 @@ class MWValidaciones{
                 return $respuesta;
             }
         }
-        return $respuesta->withJson(array("estado" => "Error", "mensaje" => "Faltan datos"));
+        return $response->withJson(array("estado" => "Error", "mensaje" => "Faltan datos"));
     }
 
     public static function ValidarEntradaEmpleado($request, $response, $next){
@@ -127,7 +127,7 @@ class MWValidaciones{
 
     public static function ValidarDatosEntradaPedido($request, $response, $next){
         $ArrayDeParametros = $request->getParsedBody();
-        if(isset($ArrayDeParametros['pedido_producto'])){
+        if(isset($ArrayDeParametros['pedido'])){
             return $next($request, $response);
         }
         return $response->withJson(array("estado" => "error", "mensaje" => "Faltan datos"));

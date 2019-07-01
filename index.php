@@ -37,6 +37,7 @@ $app->group('/empleado', function () {
   $this->get('[/]', \EmpleadoApi::class . ':traerTodos');
   $this->post('[/]', \EmpleadoApi::class . ':CargarUno')->add(\MWValidaciones::class . ':ValidarDatosEntradaCargarEmpleado');
   $this->post('/suspenderEmpleado', \EmpleadoApi::class . ':SuspenderEmpleado')->add(\MWValidaciones::class . ':ValidarEntradaEmpleado');
+  $this->post('/activarEmpleado', \EmpleadoApi::class . ':ActivarEmpleado')->add(\MWValidaciones::class . ':ValidarEntradaEmpleado');
 })->add(\MWValidaciones::class . ':ValidarSocio')->add(\MWValidaciones::class . ':ValidarToken');
 
 $app->group('/usuario', function(){

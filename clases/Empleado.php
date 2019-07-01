@@ -47,6 +47,14 @@ class Empleado{
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->execute();
     }
+
+    public static function ActivarUnEmpleado($id){
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $consulta =$objetoAccesoDato->RetornarConsulta("UPDATE empleado SET estado=:estado WHERE id=:id");
+        $consulta->bindValue(':estado', 1, PDO::PARAM_INT);
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+    }
 }
 
 function Listado($nombre, $ultimo_log, $cantidad_operaciones){

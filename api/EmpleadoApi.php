@@ -34,4 +34,11 @@ class EmpleadoApi extends Empleado implements IApiUsable{
         Empleado::SuspenderUnEmpleadoPorId($id);
         return $response->withJson(array("estado" => "Ok", "mensaje" => "Empleado suspendido"));
     }
+
+    public function ActivarEmpleado($request, $response, $args){
+        $ArrayDeParametros = $request->getParsedBody();
+        $id= $ArrayDeParametros['id'];
+        Empleado::ActivarUnEmpleado($id);
+        return $response->withJson(array("estado" => "Ok", "mensaje" => "Empleado activado"));
+    }
 }
