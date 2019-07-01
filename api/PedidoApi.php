@@ -1,5 +1,6 @@
 <?php
 require_once './clases/Pedido.php';
+require_once './clases/Mesa.php';
 require_once 'IApiUsable.php';
 
 class PedidoApi extends Pedido implements IApiUsable{
@@ -26,7 +27,9 @@ class PedidoApi extends Pedido implements IApiUsable{
     }
 
     public function ProductosPendientes($request, $response, $args){
-        $estados = Pedido::TraerProductosPendientes(1);
+        $token= $request->getHeaderLine('token');
+        $datos = AutentificadorJWT::ObtenerPayLoad($token);
+        $estados = Pedido::TraerProductosPendientes($datos->sector);
         return $response->withJson(array("estado" => "Ok", "mensaje" => $estados));
     }
 
@@ -56,10 +59,34 @@ class PedidoApi extends Pedido implements IApiUsable{
         return $response->withJson(array("estado" => "Error", "mensaje" => "No se encontró pedido"));
     }
 
+    public static function TiempoRestante($request, $response, $args){
+        $ArrayDeParametros = $request->getParsedBody();
+        $pedido_id = $ArrayDeParametros['pedido'];
+        $mesa_id = $ArrayDeParametros['mesa'];
+        $mesa = Mesa::TraerUnaMesaPorId($mesa_id);
+        $pedido = Pedido::TraerUnPedidoPorId($pedido_id);
+        $tiempo_actual = new DateTime(date("Y-m-d H:i:s"));
+        $intervalo = $tiempo_actual->diff($tiempo_actual);
+        if($mesa && $pedido){
+            $tiempo_estimado = new DateTime(date($pedido->tiempo_final_estimado));
+            if($tiempo_actual < $tiempo_estimado){
+                $intervalo = $tiempo_actual->diff($tiempo_estimado);
+            }
+        }
+        return $response->withJson(array("estado" => "Ok", "mensaje" => "Tiempo restante: $intervalo->h:$intervalo->m:$intervalo->s"));
+    }
+
     public static function EntregarPedido($request, $response, $args){
         $ArrayDeParametros = $request->getParsedBody();
         $pedido = $ArrayDeParametros['pedido'];
         Pedido::EntregarUnPedido($pedido);
         return $response->withJson(array("estado" => "Ok", "mensaje" => "Pedido entregado"));
+    }
+
+    public static function PagarPedido($request, $response, $args){
+        $ArrayDeParametros = $request->getParsedBody();
+        $pedido = $ArrayDeParametros['pedido'];
+        Pedido::PagarUnPedido($pedido);
+        return $response->withJson(array("estado" => "Ok", "mensaje" => "Pedido pagado"));
     }
 }

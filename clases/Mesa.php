@@ -31,4 +31,12 @@ class Mesa{
         $consulta->execute();
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
+
+    public static function CerrarUnaMesa($mesa){
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $consulta =$objetoAccesoDato->RetornarConsulta("UPDATE mesa SET estado=:estado WHERE id=:id");
+        $consulta->bindValue(':id', $mesa, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', 1, PDO::PARAM_INT);
+        $consulta->execute();
+    }
 }

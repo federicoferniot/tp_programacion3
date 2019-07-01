@@ -2,19 +2,17 @@
 require_once './vendor/autoload.php';
 require_once './jwt/AutentificadorJWT.php';
 require_once './api/UsuarioApi.php';
+require_once './api/HistorialLoginApi.php';
+require_once './api/HistorialOperacionApi.php';
 require_once './clases/Usuario.php';
 
 class MWValidaciones{
     public static function ValidarCredenciales($request, $response, $next){
         $ArrayDeParametros = $request->getParsedBody();
         if(isset($ArrayDeParametros['usuario']) && isset($ArrayDeParametros['password'])){
-            $usuario = Usuario::TraerUnUsuario($ArrayDeParametros['usuario']);
-            if(hash('sha512', $ArrayDeParametros['password'].$ArrayDeParametros['usuario']) == $usuario->password){
-                return AutentificadorJWT::CrearToken($request);
-            }
-            $request->getBody()->write('Contraseña incorrecta');
+            return $next($request, $response);
         }
-        return $request;
+        return $response->withJson(array("estado" => "error", "mensaje" => "Faltan datos"));
     }
 
     public static function ValidarToken($request, $response, $next){
@@ -23,9 +21,55 @@ class MWValidaciones{
             AutentificadorJWT::VerificarToken($datos);
             return $next($request, $response);
         } catch(Exception $e){
-            return $e->getMessage();
+            return $response->withJson(array("estado" => "error", "mensaje" => $e->getMessage()));
         }
         return $response;
+    }
+
+    public static function ValidarMozo($request, $response, $next){
+        $token= $request->getHeaderLine('token');
+        $datos = AutentificadorJWT::ObtenerPayLoad($token);
+        if($datos->sector == "Atención a mesas"){
+            return $next($request, $response);
+        }
+        return $response->withJson(array("estado" => "error", "mensaje" => "No tiene permisos para esta acción"));
+    }
+
+    public static function ValidarSocio($request, $response, $next){
+        $token= $request->getHeaderLine('token');
+        $datos = AutentificadorJWT::ObtenerPayLoad($token);
+        if($datos->sector == "Socios"){
+            return $next($request, $response);
+        }
+        return $response->withJson(array("estado" => "error", "mensaje" => "No tiene permisos para esta acción"));
+    }
+
+    public static function ValidarOtrosEmpleados($request, $response, $next){
+        $token= $request->getHeaderLine('token');
+        $datos = AutentificadorJWT::ObtenerPayLoad($token);
+        if($datos->sector == "Bar" || $datos->sector == "Cocina" || $datos->sector == "Cervecería"){
+            return $next($request, $response);
+        }
+        return $response->withJson(array("estado" => "error", "mensaje" => "No tiene permisos para esta acción"));
+    }
+
+    public static function RegistrarLogin($request, $response, $next){
+        $respuesta = $next($request, $response);
+        $respuesta_decode = json_decode($respuesta->getBody());
+        if($respuesta_decode->estado == "Ok"){
+            $token = $respuesta_decode->token;
+            $datos = AutentificadorJWT::ObtenerPayLoad($token);
+            HistorialLoginApi::CargarUno($datos->id);
+        }
+        return $respuesta;
+    }
+
+    public static function RegistrarOperacion($request, $response, $next){
+        $respuesta = $next($request, $response);
+        $token= $request->getHeaderLine('token');
+        $datos = AutentificadorJWT::ObtenerPayLoad($token);
+        HistorialOperacionApi::CargarUno($datos->id);
+        return $respuesta;
     }
 
     public static function ValidarDatosEntradaEmpleado($request, $response, $next){

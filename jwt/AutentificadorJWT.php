@@ -7,7 +7,7 @@ class AutentificadorJWT
     private static $tipoEncriptacion = ['HS256'];
     private static $aud = null;
     
-    public static function CrearToken($datos)
+    public static function CrearToken($id, $sector)
     {
         $ahora = time();
         /*
@@ -16,10 +16,9 @@ class AutentificadorJWT
          + los que quieras ej="'app'=> "API REST CD 2017" 
         */
         $payload = array(
-        	'iat'=>$ahora,
-            'exp' => $ahora + (60),
             'aud' => self::Aud(),
-            'data' => $datos,
+            'id' => $id,
+            'sector' => $sector,
             'app'=> "LA COMANDA"
         );
         return JWT::encode($payload, self::$claveSecreta);
