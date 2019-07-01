@@ -35,10 +35,13 @@ class Pedido{
             $this->id = substr(md5(time()), rand(0, 26), 5);
         }while(Pedido::TraerUnPedidoPorId($this->id));
         $this->CalcularTotalYTiempoEstimado();
-        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido (id, mesa, total, tiempo_final_estimado, estado)values(:id, :mesa, :total,:tiempo_final_estimado, :estado)");
+        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido (id, mesa, total, tiempo_inicial,tiempo_final_estimado, estado)values(:id, :mesa, :total, :tiempo_inicial, :tiempo_final_estimado, :estado)");
         $consulta->bindValue(':id', $this->id, PDO::PARAM_STR);
         $consulta->bindValue(':mesa', $this->mesa);
         $consulta->bindValue(':total', $this->total);
+
+        $time_now = new DateTime(date("Y-m-d H:i:s"));
+        $consulta->bindValue(':tiempo_inicial', $time_now->format("Y-m-d H:i:s"));
 
         $time = new DateTime(date("Y-m-d H:i:s"));
         $time->add(new DateInterval('PT' . $this->tiempo_final_estimado . 'M'));
@@ -165,13 +168,26 @@ class Pedido{
         $consulta->bindValue(':id', $pedido);
         $consulta->execute();
     }
+
+    public static function ListarTodosLosPedidos(){
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT id as id, tiempo_inicial as tiempo_inicial, tiempo_entregado as tiempo_entregado, total as total FROM pedido WHERE estado=:estado");
+        $consulta->bindValue(':estado', 5, PDO::PARAM_INT);
+        $consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_FUNC, "PedidosPagados");
+    }
+
 }
 
 
 function PedidoEstados($id, $mesa, $estado){
-    return "{id: {$id} , mesa: {$mesa}, estado: {$estado}}";
+    return "{id: $id , mesa: $mesa, estado: $estado}";
 }
 
 function ProductosPendientes($id, $cantidad, $nombre){
-    return "{id: {$id} , cantidad: {$cantidad}, nombre: {$nombre}}";
+    return "{id: $id, cantidad: $cantidad, nombre: $nombre}";
+}
+
+function PedidosPagados($id, $tiempo_inicial, $tiempo_entregado, $total){
+    return "{id: \"$id\",hora_ini: \"$tiempo_inicial\", hora_fin: \"$tiempo_entregado\", importe: \"$total\"}";
 }

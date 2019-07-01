@@ -35,25 +35,25 @@ $app->group('/login', function(){
 
 $app->group('/empleado', function () {
   $this->get('[/]', \EmpleadoApi::class . ':traerTodos');
-  $this->post('[/]', \EmpleadoApi::class . ':CargarUno')->add(\MWValidaciones::class . ':ValidarDatosEntradaEmpleado');
-  $this->post('/suspenderEmpleado', \EmpleadoApi::class . ':SuspenderEmpleado');
+  $this->post('[/]', \EmpleadoApi::class . ':CargarUno')->add(\MWValidaciones::class . ':ValidarDatosEntradaCargarEmpleado');
+  $this->post('/suspenderEmpleado', \EmpleadoApi::class . ':SuspenderEmpleado')->add(\MWValidaciones::class . ':ValidarEntradaEmpleado');
 })->add(\MWValidaciones::class . ':ValidarSocio')->add(\MWValidaciones::class . ':ValidarToken');
 
 $app->group('/usuario', function(){
   $this->get('/{usuario}', \UsuarioApi::class . ':TraerUno');
-});
+})->add(\MWValidaciones::class . ':ValidarSocio')->add(\MWValidaciones::class . ':ValidarToken');
 
 $app->group('/sector', function(){
   $this->get('/{id}', \SectorApi::class . ':TraerUno');
-  $this->post('[/]', \SectorApi::class . ':CargarUno');
+  $this->post('[/]', \SectorApi::class . ':CargarUno')->add(\MWValidaciones::class . ':ValidarDatosEntradaCargarSector');
   $this->get('', \SectorApi::class . ':TraerTodos');
-});
+})->add(\MWValidaciones::class . ':ValidarSocio')->add(\MWValidaciones::class . ':ValidarToken');
 
 $app->group('/producto', function(){
   $this->get('/{id}', \ProductoApi::class . ':TraerUno');
-  $this->post('[/]', \ProductoApi::class . ':CargarUno');
+  $this->post('[/]', \ProductoApi::class . ':CargarUno')->add(\MWValidaciones::class . ':ValidarDatosEntradaCargarProducto');
   $this->get('', \ProductoApi::class . ':TraerTodos');
-});
+})->add(\MWValidaciones::class . ':ValidarSocio')->add(\MWValidaciones::class . ':ValidarToken');
 
 $app->group('/mesa', function(){
   $this->get('', \MesaApi::class . ':TraerTodos');
@@ -62,22 +62,23 @@ $app->group('/mesa', function(){
 })->add(\MWValidaciones::class . ':ValidarSocio')->add(\MWValidaciones::class . ':ValidarToken');
 
 $app->group('/pedido', function(){
-  $this->post('[/]', \PedidoApi::class . ':CargarUno')->add(\MWValidaciones::class . ':RegistrarOperacion')->add(\MWValidaciones::class . ':ValidarMozo');
+  $this->post('[/]', \PedidoApi::class . ':CargarUno')->add(\MWValidaciones::class . ':ValidarDatosEntradaCargarPedido')->add(\MWValidaciones::class . ':RegistrarOperacion')->add(\MWValidaciones::class . ':ValidarMozo');
   $this->get('/verEstados', \PedidoApi::class . ':VerEstados')->add(\MWValidaciones::class . ':ValidarSocio');
   $this->get('/productosPendientes', \PedidoApi::class . ':ProductosPendientes')->add(\MWValidaciones::class . ':ValidarOtrosEmpleados');
-  $this->post('/prepararPedido', \PedidoApi::class . ':PrepararProducto')->add(\MWValidaciones::class . ':RegistrarOperacion')->add(\MWValidaciones::class . ':ValidarOtrosEmpleados');
-  $this->post('/servirProducto', \PedidoApi::class . ':ServirProducto')->add(\MWValidaciones::class . ':RegistrarOperacion')->add(\MWValidaciones::class . ':ValidarOtrosEmpleados');
-  $this->post('/entregarPedido', \PedidoApi::class . ':EntregarPedido')->add(\MWValidaciones::class . ':RegistrarOperacion')->add(\MWValidaciones::class . ':ValidarMozo');
-  $this->post('/pagarPedido', \PedidoApi::class . ':PagarPedido')->add(\MWValidaciones::class . ':RegistrarOperacion')->add(\MWValidaciones::class . ':ValidarMozo');
+  $this->post('/prepararPedido', \PedidoApi::class . ':PrepararProducto')->add(\MWValidaciones::class . ':ValidarDatosEntradaProductoPedido')->add(\MWValidaciones::class . ':RegistrarOperacion')->add(\MWValidaciones::class . ':ValidarOtrosEmpleados');
+  $this->post('/servirProducto', \PedidoApi::class . ':ServirProducto')->add(\MWValidaciones::class . ':ValidarDatosEntradaProductoPedido')->add(\MWValidaciones::class . ':RegistrarOperacion')->add(\MWValidaciones::class . ':ValidarOtrosEmpleados');
+  $this->post('/entregarPedido', \PedidoApi::class . ':EntregarPedido')->add(\MWValidaciones::class . ':ValidarDatosEntradaPedido')->add(\MWValidaciones::class . ':RegistrarOperacion')->add(\MWValidaciones::class . ':ValidarMozo');
+  $this->post('/pagarPedido', \PedidoApi::class . ':PagarPedido')->add(\MWValidaciones::class . ':ValidarDatosEntradaPedido')->add(\MWValidaciones::class . ':RegistrarOperacion')->add(\MWValidaciones::class . ':ValidarMozo');
 })->add(\MWValidaciones::class . ':ValidarToken');
 
 $app->group('/cliente', function(){
   $this->post('/tiempoRestante', \PedidoApi::class . ':TiempoRestante');
-  $this->post('/cargarEncuesta', \EncuestaApi::class . ':CargarUno');
+  $this->post('/cargarEncuesta', \EncuestaApi::class . ':CargarUno')->add(\MWValidaciones::class . ':ValidarDatosEntradaEncuesta');
 });
 
 $app->group('/listado', function(){
   $this->get('/empleados', \EmpleadoApi::class . ':ListadoEmpleados');
+  $this->get('/pedidos', \PedidoApi::class . ':ListarPedidos');
 })->add(\MWValidaciones::class . ':ValidarSocio')->add(\MWValidaciones::class . ':ValidarToken');
 
 $app->run();

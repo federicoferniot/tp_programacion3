@@ -29,7 +29,7 @@ class Mesa{
         $consulta->bindValue(':id', $this->id, PDO::PARAM_STR);
         $consulta->bindValue(':estado', 1, PDO::PARAM_INT);
         $consulta->execute();
-        return $objetoAccesoDato->RetornarUltimoIdInsertado();
+        return $this->id;
     }
 
     public static function CerrarUnaMesa($mesa){

@@ -72,12 +72,73 @@ class MWValidaciones{
         return $respuesta;
     }
 
-    public static function ValidarDatosEntradaEmpleado($request, $response, $next){
+    public static function ValidarDatosEntradaCargarEmpleado($request, $response, $next){
         $ArrayDeParametros = $request->getParsedBody();
         if(isset($ArrayDeParametros['nombre']) && isset($ArrayDeParametros['usuario']) && isset($ArrayDeParametros['password']) && !(Usuario::TraerUnUsuario($ArrayDeParametros['usuario']))){
-            $user_id = UsuarioApi::cargarUno($request, $response);
+            $respuesta = UsuarioApi::cargarUno($request, $response);
+            $respuesta_decode = json_decode($respuesta->getBody());
+            if($respuesta_decode->estado == "Ok"){
+                return $next($request, $response);
+            }else{
+                return $respuesta;
+            }
+        }
+        return $respuesta->withJson(array("estado" => "Error", "mensaje" => "Faltan datos"));
+    }
+
+    public static function ValidarEntradaEmpleado($request, $response, $next){
+        $ArrayDeParametros = $request->getParsedBody();
+        if(isset($ArrayDeParametros['id'])){
             return $next($request, $response);
         }
-        return $response;
+        return $response->withJson(array("estado" => "error", "mensaje" => "Faltan datos"));
     }
+
+    public static function ValidarDatosEntradaCargarSector($request, $response, $next){
+        $ArrayDeParametros = $request->getParsedBody();
+        if(isset($ArrayDeParametros['nombre'])){
+            return $next($request, $response);
+        }
+        return $response->withJson(array("estado" => "error", "mensaje" => "Faltan datos"));
+    }
+    public static function ValidarDatosEntradaCargarProducto($request, $response, $next){
+        $ArrayDeParametros = $request->getParsedBody();
+        if(isset($ArrayDeParametros['nombre']) && isset($ArrayDeParametros['precio']) && isset($ArrayDeParametros['tiempo_estimado']) && isset($ArrayDeParametros['sector_id'])){
+            return $next($request, $response);
+        }
+        return $response->withJson(array("estado" => "error", "mensaje" => "Faltan datos"));
+    }
+
+    public static function ValidarDatosEntradaCargarPedido($request, $response, $next){
+        $ArrayDeParametros = $request->getParsedBody();
+        if(isset($ArrayDeParametros['mesa']) && isset($ArrayDeParametros['productos'])){
+            return $next($request, $response);
+        }
+        return $response->withJson(array("estado" => "error", "mensaje" => "Faltan datos"));
+    }
+
+    public static function ValidarDatosEntradaProductoPedido($request, $response, $next){
+        $ArrayDeParametros = $request->getParsedBody();
+        if(isset($ArrayDeParametros['pedido_producto']) && isset($ArrayDeParametros['pedido'])){
+            return $next($request, $response);
+        }
+        return $response->withJson(array("estado" => "error", "mensaje" => "Faltan datos"));
+    }
+
+    public static function ValidarDatosEntradaPedido($request, $response, $next){
+        $ArrayDeParametros = $request->getParsedBody();
+        if(isset($ArrayDeParametros['pedido_producto'])){
+            return $next($request, $response);
+        }
+        return $response->withJson(array("estado" => "error", "mensaje" => "Faltan datos"));
+    }
+
+    public static function ValidarDatosEntradaEncuesta($request, $response, $next){
+        $ArrayDeParametros = $request->getParsedBody();
+        if(isset($ArrayDeParametros['pMesa']) && isset($ArrayDeParametros['pRestaurante']) && isset($ArrayDeParametros['pMozo']) && isset($ArrayDeParametros['pCocinero']) && isset($ArrayDeParametros['comentario'])){
+            return $next($request, $response);
+        }
+        return $response->withJson(array("estado" => "error", "mensaje" => "Faltan datos"));
+    }
+
 }

@@ -8,7 +8,7 @@ class MesaApi extends Mesa implements IApiUsable{
         $mesa->InsertarUnaMesa();
 
         $response->getBody()->write("se guardo la mesa");
-        return $response;
+        return $response->withJson(array("estado" => "Ok", "mensaje" => "Se guardó la mesa con Id ".$mesa->id));
     }
 
     public function TraerTodos($request, $response, $args) {

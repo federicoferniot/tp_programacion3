@@ -4,6 +4,8 @@ require_once './clases/Mesa.php';
 require_once 'IApiUsable.php';
 
 class PedidoApi extends Pedido implements IApiUsable{
+    public static $destino = "./fotos/";
+
     public static function CargarUno($request, $response) {
         $ArrayDeParametros = $request->getParsedBody();
         $productos= json_decode($ArrayDeParametros['productos'], true);
@@ -14,6 +16,17 @@ class PedidoApi extends Pedido implements IApiUsable{
         $pedido->mesa = $mesa;
         $id = $pedido->InsertarUnPedido();
         
+        if(isset($ArrayDeParametros['foto'])){
+            $uploadedFiles = $request->getUploadedFiles();
+            $uploadedFile = $uploadedFiles['foto'];
+            $array_nombre_archivo = explode(".", $uploadedFile->getClientFileName());
+
+            $nombre_archivo = ($id).".";
+            $nombre_archivo .= $array_nombre_archivo[sizeof($array_nombre_archivo)-1];
+    
+            $uploadedFile->moveTo(PedidoApi::$destino.$nombre_archivo);
+        }
+
         return $response->withJson(array("estado" => "Ok", "mensaje" => "Pedido dado de alta con Id: ".$id));
     }
 
@@ -88,5 +101,10 @@ class PedidoApi extends Pedido implements IApiUsable{
         $pedido = $ArrayDeParametros['pedido'];
         Pedido::PagarUnPedido($pedido);
         return $response->withJson(array("estado" => "Ok", "mensaje" => "Pedido pagado"));
+    }
+
+    public static function ListarPedidos($request, $response, $args){
+        $pedidos = Pedido::ListarTodosLosPedidos();
+        return $response->withJson(array("estado" => "Ok", "mensaje" => $pedidos));
     }
 }

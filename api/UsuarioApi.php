@@ -7,14 +7,18 @@ class UsuarioApi extends Usuario{
         $ArrayDeParametros = $request->getParsedBody();
         $username= $ArrayDeParametros['usuario'];
         $password= $ArrayDeParametros['password'];
+
+        $usuario = Usuario::TraerUnUsuario($username);
+        if($usuario){
+            return $response->withJson(array("estado" => "Error", "mensaje" => "Ya existe el usuario"));
+        }
         $usuario = new Usuario();
         $usuario->username=$username;
         $usuario->password=$password;
 
         $usuario->InsertarUsuario();
         
-        $response->getBody()->write("se guardo el usuario");
-        return $response;
+        return $response->withJson(array("estado" => "Ok", "mensaje" => "Se dió de alta el usuario"));
     }
 
     public function TraerUno($request, $response, $args) {
