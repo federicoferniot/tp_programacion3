@@ -1,0 +1,735 @@
+{
+	"info": {
+		"_postman_id": "02b1435e-ec5f-45db-9ffc-1f3e51e2e1f8",
+		"name": "la_comanda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "usuario",
+							"value": "socio1",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/login",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alta Pedido con mozo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjksInNlY3RvciI6IkF0ZW5jaVx1MDBmM24gYSBtZXNhcyIsImFwcCI6IkxBIENPTUFOREEifQ.WHhqEDe1CcVC4qV8VYNuA1liAD-MxGnGCW_TL_w3q5M",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "productos",
+							"value": " [{\"producto\": \"2\",  \"cantidad\": \"3\"}, {\"producto\":\"1\", \"cantidad\":\"1\"}]",
+							"type": "text"
+						},
+						{
+							"key": "mesa",
+							"value": "a90f5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/pedido",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"pedido"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alta sector",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nombre",
+							"value": "Socios",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/sector",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"sector"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ver estados todos los pedidos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjEwLCJzZWN0b3IiOiJTb2Npb3MiLCJhcHAiOiJMQSBDT01BTkRBIn0.gvXRSLRuArW_dC8nLidAICuxsnFJXRBFFrVNGZ9ptFI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "www.fferniottp.dx.am/pedido/verEstados",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"pedido",
+						"verEstados"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Productos pendientes",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjgsInNlY3RvciI6IkNvY2luYSIsImFwcCI6IkxBIENPTUFOREEifQ.uW3rh7R03sj-LfT5seogMOvoYfqich1E0aTZdVpJf3Q",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "www.fferniottp.dx.am/pedido/productosPendientes",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"pedido",
+						"productosPendientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Poner en preparación Parte de pedido",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjgsInNlY3RvciI6IkNvY2luYSIsImFwcCI6IkxBIENPTUFOREEifQ.uW3rh7R03sj-LfT5seogMOvoYfqich1E0aTZdVpJf3Q",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "pedido_producto",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "pedido",
+							"value": "06497",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/pedido/prepararPedido",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"pedido",
+						"prepararPedido"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listo para servir un producto",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjgsInNlY3RvciI6IkNvY2luYSIsImFwcCI6IkxBIENPTUFOREEifQ.uW3rh7R03sj-LfT5seogMOvoYfqich1E0aTZdVpJf3Q",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "pedido_producto",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "pedido",
+							"value": "06497",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/pedido/servirProducto",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"pedido",
+						"servirProducto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entregar pedido a mesa",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjksInNlY3RvciI6IkF0ZW5jaVx1MDBmM24gYSBtZXNhcyIsImFwcCI6IkxBIENPTUFOREEifQ.WHhqEDe1CcVC4qV8VYNuA1liAD-MxGnGCW_TL_w3q5M",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "pedido",
+							"value": "32876",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/pedido/entregarPedido",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"pedido",
+						"entregarPedido"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tiempo Restante",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "pedido",
+							"value": "26938",
+							"type": "text"
+						},
+						{
+							"key": "mesa",
+							"value": "a90f5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/cliente/tiempoRestante",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"cliente",
+						"tiempoRestante"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cargar encuesta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "pMesa",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "pRestaurante",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "pMozo",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "pCocinero",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "comentario",
+							"value": "No volvería a ir",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/cliente/cargarEncuesta",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"cliente",
+						"cargarEncuesta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alta empleado",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjEwLCJzZWN0b3IiOiJTb2Npb3MiLCJhcHAiOiJMQSBDT01BTkRBIn0.gvXRSLRuArW_dC8nLidAICuxsnFJXRBFFrVNGZ9ptFI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nombre",
+							"value": "mozo",
+							"type": "text"
+						},
+						{
+							"key": "usuario",
+							"value": "mozo",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						},
+						{
+							"key": "sector",
+							"value": "4",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/empleado",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"empleado"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pagar pedido con mozo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjksInNlY3RvciI6IkF0ZW5jaVx1MDBmM24gYSBtZXNhcyIsImFwcCI6IkxBIENPTUFOREEifQ.WHhqEDe1CcVC4qV8VYNuA1liAD-MxGnGCW_TL_w3q5M",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "pedido",
+							"value": "32876",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/pedido/pagarPedido",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"pedido",
+						"pagarPedido"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cerrar mesa con Socio",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYTkzN2NlZjNkMzFmY2NjOGFiMGFlNjQxNTI5YjRjM2FiM2QyNzMyIiwiaWQiOjEwLCJzZWN0b3IiOiJTb2Npb3MiLCJhcHAiOiJMQSBDT01BTkRBIn0.s0osaQmwgwaSkPX9uZfVG3ZT2jFWrSjXVzQCX2LfCgY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "mesa",
+							"value": "a90f5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/mesa/cerrarMesa",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"mesa",
+						"cerrarMesa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listado empleados con login y cantidad de operaciones",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjEwLCJzZWN0b3IiOiJTb2Npb3MiLCJhcHAiOiJMQSBDT01BTkRBIn0.gvXRSLRuArW_dC8nLidAICuxsnFJXRBFFrVNGZ9ptFI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "www.fferniottp.dx.am/listado/empleados",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"listado",
+						"empleados"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener datos empleados",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjEwLCJzZWN0b3IiOiJTb2Npb3MiLCJhcHAiOiJMQSBDT01BTkRBIn0.gvXRSLRuArW_dC8nLidAICuxsnFJXRBFFrVNGZ9ptFI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "www.fferniottp.dx.am/empleado",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"empleado"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Suspender empleado con socio",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYTkzN2NlZjNkMzFmY2NjOGFiMGFlNjQxNTI5YjRjM2FiM2QyNzMyIiwiaWQiOjEwLCJzZWN0b3IiOiJTb2Npb3MiLCJhcHAiOiJMQSBDT01BTkRBIn0.s0osaQmwgwaSkPX9uZfVG3ZT2jFWrSjXVzQCX2LfCgY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "6",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/empleado/suspenderEmpleado",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"empleado",
+						"suspenderEmpleado"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activar empleado con socio",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjEwLCJzZWN0b3IiOiJTb2Npb3MiLCJhcHAiOiJMQSBDT01BTkRBIn0.gvXRSLRuArW_dC8nLidAICuxsnFJXRBFFrVNGZ9ptFI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "6",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "www.fferniottp.dx.am/empleado/activarEmpleado",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"empleado",
+						"activarEmpleado"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listado pedidos hora ini, hora fin e importe",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYTkzN2NlZjNkMzFmY2NjOGFiMGFlNjQxNTI5YjRjM2FiM2QyNzMyIiwiaWQiOjEwLCJzZWN0b3IiOiJTb2Npb3MiLCJhcHAiOiJMQSBDT01BTkRBIn0.s0osaQmwgwaSkPX9uZfVG3ZT2jFWrSjXVzQCX2LfCgY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "www.fferniottp.dx.am/listado/pedidos",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"listado",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Traer todos los sectores",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjEwLCJzZWN0b3IiOiJTb2Npb3MiLCJhcHAiOiJMQSBDT01BTkRBIn0.gvXRSLRuArW_dC8nLidAICuxsnFJXRBFFrVNGZ9ptFI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "www.fferniottp.dx.am/sector",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"sector"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alta mesa",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjEwLCJzZWN0b3IiOiJTb2Npb3MiLCJhcHAiOiJMQSBDT01BTkRBIn0.gvXRSLRuArW_dC8nLidAICuxsnFJXRBFFrVNGZ9ptFI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "www.fferniottp.dx.am/mesa/",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"mesa",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Traer todas las mesas",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MmZjMDc0NGRiYWQ2N2FhYjY5ZDBkZDQ2NDI5MDEzZjdjNDQzMGQ5IiwiaWQiOjEwLCJzZWN0b3IiOiJTb2Npb3MiLCJhcHAiOiJMQSBDT01BTkRBIn0.gvXRSLRuArW_dC8nLidAICuxsnFJXRBFFrVNGZ9ptFI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "www.fferniottp.dx.am/mesa",
+					"host": [
+						"www",
+						"fferniottp",
+						"dx",
+						"am"
+					],
+					"path": [
+						"mesa"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
